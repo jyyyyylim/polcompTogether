@@ -11,8 +11,8 @@ var arrowwidth= 5;
 var arrowlen= 14;
 var arrowOffset= 135;
 
-const margin= 30;
-const padding= 20;
+const margin= size*.025;
+const padding= size*.017;
 const thickness= 2;
 
 const xaxis= (size/2);
@@ -20,6 +20,12 @@ const yaxis= (size/2);
 
 //figure out scaling: (1200-60)/20
 var scaleFactor= (size-((margin+padding)*2))/20;
+
+
+//precompute sincos
+const sin90= 1;
+const cos90= 0;
+
 
 //math consts
 function lnNormal(x1, y1, x2, y2){
@@ -63,6 +69,7 @@ function initializeCanvas(){
 }
 
 
+
 function draw(){
 
 
@@ -77,9 +84,10 @@ function draw(){
 
 ////////////////////////////////PRIMITIVES////////////////////////////////////
 function background(){
+
     //out of pure autism this literally took me a day to replicate
     //"drawing svg on canvas" gives nothing of value
-    
+
     canvasContext.lineWidth = 0.2;
     canvasContext.font = "1rem calibri";
     canvasContext.beginPath();
@@ -213,23 +221,10 @@ function label(x, y, col, label, size){
     console.log("wrote label "+label+" at coords "+x,y);
 }
 
-function arrow(x1, y1, x2, y2){
+//head values: 1, 2, yes, no
+function arrow(x1, y1, x2, y2, head){
     canvasContext.lineWidth = 1;
     canvasContext.beginPath(); 
-
-    canvasContext.moveTo(x1-arrowlen+margin, y1);
-    canvasContext.lineTo(x1+margin, y1+arrowwidth);
-    canvasContext.lineTo(x1+margin, y1-arrowwidth);
-    canvasContext.fill();
-
-    canvasContext.moveTo(x2+arrowlen-margin, y1);
-    canvasContext.lineTo(x2-margin, y1+arrowwidth);
-    canvasContext.lineTo(x2-margin, y1-arrowwidth);
-    canvasContext.fill();
-
-    canvasContext.moveTo(x1+margin, y1);
-    canvasContext.lineTo(x2-margin, y2);
-    canvasContext.stroke();
 
 
 

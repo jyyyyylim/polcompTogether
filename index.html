@@ -15,7 +15,7 @@
 
 
 
-<body onload="initializeCanvas();" class="panel -center">
+<body onload="initializeCanvas(); plotterOnload();" class="panel -center">
     <div class="main -polcomp">
         <canvas class="plot" id="comp" style="background-color: white;" width= "1200" height="1200"></canvas>
 
@@ -25,8 +25,12 @@
             </div>
 
             <div class="options" id="options">
-                <span class="add" id="add">Add</span><span> | </span>
-                <span class="reset" id="reset">Reset</span><span> | </span>
+                <span class="optionselect add" id="add">Add</span><span> | </span>
+
+                <span class="optionselect load" id="load">Load</span><span> | </span>
+                <span class="optionselect reset" id="reset">Reset</span><span> | </span>
+                <span class="optionselect options" id="options">Options</span><span> | </span>
+
             </div>
         </div>
     </div>
