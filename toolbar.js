@@ -54,10 +54,12 @@ ctxEntries.oninput= function(event){
         plotBuffer[plotIndx].label= document.getElementById("name-"+identifier).value;
     }
     if (event.target.id=="x-"+identifier){
-        document.getElementById("xaxis-"+identifier).innerHTML = plotBuffer[plotIndx].offsetx = document.getElementById("x-"+identifier).value;
+        xVal = plotBuffer[plotIndx].offsetx = document.getElementById("x-"+identifier).value;
+        document.getElementById("xaxis-"+identifier).innerHTML= "x: "+xVal; 
     }
     if (event.target.id=="y-"+identifier){
-        document.getElementById("yaxis-"+identifier).innerHTML = plotBuffer[plotIndx].offsety = document.getElementById("y-"+identifier).value;
+        yVal = plotBuffer[plotIndx].offsety = document.getElementById("y-"+identifier).value;
+        document.getElementById("yaxis-"+identifier).innerHTML= "y: "+yVal;
     }
     update();
 }
@@ -104,7 +106,7 @@ ctxOptions.onclick= function(event){
 }
 
 function addPoint(identifier){
-    ctxEntries.insertAdjacentHTML('beforeend', '<div class="plotpoint" id="plotpoint-'+identifier+'"><div class="delete" id="delete-'+identifier+'">×</div><input type="text" id="name-'+identifier+'" placeholder="name"><input type="range" min="-10" max="10" step="0.001" value="0" class="slider" id="x-'+identifier+'"><kbd><span id="xaxis-'+identifier+'" class="number">x: 0</span></kbd><input type="range" min="-10" max="10" step="0.001" value="0" class="slider" id="y-'+identifier+'"><kbd><span id="yaxis-'+identifier+'" class="number">y: 0</span></kbd></div>');
+    ctxEntries.insertAdjacentHTML('beforeend', '<div class="plotpoint" id="plotpoint-'+identifier+'"><div class="delete" id="delete-'+identifier+'">×</div><input type="text" id="name-'+identifier+'" placeholder="name"><input type="range" min="-10" max="10" step="0.001" value="0" class="slider polslider" id="x-'+identifier+'"><kbd><span id="xaxis-'+identifier+'" class="number">x: 0</span></kbd><input type="range" min="-10" max="10" step="0.001" value="0" class="slider polslider" id="y-'+identifier+'"><kbd><span id="yaxis-'+identifier+'" class="number">y: 0</span></kbd></div>');
 }
 
 function clr(){
