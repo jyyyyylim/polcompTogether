@@ -1,11 +1,10 @@
 //contentARRAY: struct: label, offsetx, offsety
 var plotBuffer= [];
-
+var idBuffer= [];
 
 
 var ctxEntries= document.getElementById("entries");
 var ctxOptions= document.getElementById("options");
-var idBuffer= [];
 
 
 
@@ -28,16 +27,21 @@ function getIdentifier(event){return /\-(.*)/gm.exec(event.target.id)[1];}
 
 ctxEntries.onclick= function(event){
     identifier= getIdentifier(event); //returns id no
-
-
     if (event.target.id=="delete-"+identifier){
-        console.log("delete event id: "+event.target.id);
+        //console.log("delete event id: "+event.target.id);
+        removePlot(identifier);
         bufferId(identifier); 
-        document.getElementById("plotpoint-"+identifier).remove();
+
+        targetCtx= document.getElementById("plotpoint-"+identifier);
+
+        targetCtx.classList.add("plotpoint-remove");
+
+
+        targetCtx.addEventListener("transitionend", ()=>{
+            targetCtx.remove();
+        })
+        update();
     }
-
-
-
     else{};
 }
 
@@ -50,17 +54,17 @@ ctxEntries.oninput= function(event){
         plotBuffer[plotIndx].label= document.getElementById("name-"+identifier).value;
     }
     if (event.target.id=="x-"+identifier){
-        plotBuffer[plotIndx].offsetx= document.getElementById("x-"+identifier).value;
+        document.getElementById("xaxis-"+identifier).innerHTML = plotBuffer[plotIndx].offsetx = document.getElementById("x-"+identifier).value;
     }
     if (event.target.id=="y-"+identifier){
-        plotBuffer[plotIndx].offsety= document.getElementById("y-"+identifier).value;
+        document.getElementById("yaxis-"+identifier).innerHTML = plotBuffer[plotIndx].offsety = document.getElementById("y-"+identifier).value;
     }
-    updateContent();
+    update();
 }
 
 
 
-function updateContent(){
+function update(){
     window.requestAnimationFrame(draw);
 }
 
@@ -82,21 +86,16 @@ ctxOptions.onclick= function(event){
         if(idBuffer.length===0){
             addPoint(ctxEntries.childElementCount);
             bufferPlot(ctxEntries.childElementCount-1); 
-
-            //console.log("added: "+(ctxEntries.childElementCount));
         }
 
-        else{
-            addPoint(idBuffer[0]);
-            bufferPlot(idBuffer[0]); 
-            removeId(idBuffer[0])
-        }
+        else{addPoint(idBuffer[0]); bufferPlot(idBuffer[0]); removeId(idBuffer[0])}
 
 
     }
 
     if(event.target.id=="reset"){
-
+        plotBuffer=[]; idBuffer=[]; clr();
+        update();
     }
 
 
@@ -105,8 +104,11 @@ ctxOptions.onclick= function(event){
 }
 
 function addPoint(identifier){
-    pointCtx=document.getElementById("entries");
-    pointCtx.insertAdjacentHTML('beforeend', '<div class="plotpoint" id="plotpoint-'+identifier+'"><div class="delete" id="delete-'+identifier+'">×</div><input type="text" id="name-'+identifier+'" placeholder="name"><input type="range" min="-10" max="10" step="0.001" value="0" class="slider" id="x-'+identifier+'"><kbd><span id="xaxis-'+identifier+'" class="number">sdsd</span></kbd><input type="range" min="-10" max="10" step="0.001" value="0" class="slider" id="y-'+identifier+'"><kbd><span id="yaxis-'+identifier+'" class="number">dsdd</span></kbd></div>');
+    ctxEntries.insertAdjacentHTML('beforeend', '<div class="plotpoint" id="plotpoint-'+identifier+'"><div class="delete" id="delete-'+identifier+'">×</div><input type="text" id="name-'+identifier+'" placeholder="name"><input type="range" min="-10" max="10" step="0.001" value="0" class="slider" id="x-'+identifier+'"><kbd><span id="xaxis-'+identifier+'" class="number">x: 0</span></kbd><input type="range" min="-10" max="10" step="0.001" value="0" class="slider" id="y-'+identifier+'"><kbd><span id="yaxis-'+identifier+'" class="number">y: 0</span></kbd></div>');
+}
+
+function clr(){
+    ctxEntries.innerHTML="";
 }
 
 

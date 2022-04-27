@@ -19,7 +19,7 @@ const xaxis= (size/2);
 const yaxis= (size/2);
 
 //figure out scaling: (1200-60)/20
-var scaleFactor= (1200-100)/20;
+var scaleFactor= (size-((margin+padding)*2))/20;
 
 //math consts
 function lnNormal(x1, y1, x2, y2){
@@ -64,23 +64,48 @@ function initializeCanvas(){
 
 
 function draw(){
-    canvasContext.clearRect(0, 0, width, height);
-    canvasContext.strokeStyle = "black";
-    canvasContext.fillStyle = "black";
+
+
+
     console.log("drawing background with dim "+canvasElement.height);
     background();
 
     if (plotBuffer.length!=0){for (i=0; i<plotBuffer.length; i++){labelledDot((plotBuffer[i].offsetx), (plotBuffer[i].offsety), plotBuffer[i].label)}}
 
-    //labelledDot(xaxis, yaxis, "jy");
-
+    canvasElement.toDataURL("image/jpg");
 }
 
 ////////////////////////////////PRIMITIVES////////////////////////////////////
 function background(){
-    canvasContext.lineWidth = 1;
+    canvasContext.lineWidth = 0.2;
     canvasContext.font = "1rem calibri";
+    canvasContext.beginPath();
+    
+    canvasContext.clearRect(0, 0, width, height);
+    
+    canvasContext.globalCompositeOperation = 'source-over';
+
+    //logic: draw lines, then destination-atop to save on context switching for colors
+    canvasContext.strokeStyle = "#7F7F80";
+
+    for (i=1; i<20; i++){
+        canvasContext.moveTo(margin+padding+(scaleFactor*i), margin+padding);
+        canvasContext.lineTo(margin+padding+(scaleFactor*i), height-margin-padding);
+        canvasContext.stroke();
+    }
+
+    for (i=1; i<21; i++){
+        canvasContext.moveTo(margin+padding, margin+padding+(scaleFactor*i));
+        canvasContext.lineTo(width-margin-padding, margin+padding+(scaleFactor*i));
+        canvasContext.stroke();
+    }
+
+    canvasContext.closePath();
+    //close and begin path, due to unusual behaviour
     canvasContext.beginPath(); 
+
+
+    canvasContext.globalCompositeOperation = 'screen';
 
     canvasContext.fillStyle = "#F9BABA";
     canvasContext.fillRect(0+margin+padding, 0+margin+padding, xaxis-margin-padding, yaxis-margin-padding);
@@ -94,8 +119,17 @@ function background(){
 
 
 
+
+
     canvasContext.strokeStyle = "black";
     canvasContext.fillStyle = "black";
+
+
+
+
+    canvasContext.globalCompositeOperation = 'source-over';
+
+    canvasContext.lineWidth = 1;
 
     canvasContext.moveTo(0-arrowlen+margin, yaxis);
     canvasContext.lineTo(0+margin, yaxis+arrowwidth);
@@ -127,12 +161,14 @@ function background(){
 
 
 
+
+
     
 
-    label(70, yaxis+20, "#A6D493", "-economic", "0.7");
-    label(xaxis, height-56, "#D7B2D4", "-auth", "0.7");
-    label(width-170, yaxis-10, "#5CC7F5", "+economic", "0.7");
-    label(xaxis-60, 70, "#F69C9C", "+auth", "0.7");
+    label(70, yaxis+20, "#83C368", "-economic", "0.7");
+    label(xaxis, height-56, "#B777B3", "-auth", "0.7");
+    label(width-170, yaxis-10, "#27B5F1", "+economic", "0.7");
+    label(xaxis-60, 70, "#EF4747", "+auth", "0.7");
 }
 
 
