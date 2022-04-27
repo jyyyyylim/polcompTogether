@@ -77,6 +77,9 @@ function draw(){
 
 ////////////////////////////////PRIMITIVES////////////////////////////////////
 function background(){
+    //out of pure autism this literally took me a day to replicate
+    //"drawing svg on canvas" gives nothing of value
+    
     canvasContext.lineWidth = 0.2;
     canvasContext.font = "1rem calibri";
     canvasContext.beginPath();
