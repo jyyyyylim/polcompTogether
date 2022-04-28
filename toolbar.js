@@ -38,6 +38,8 @@ ctxEntries.onclick= function(event){
     identifier= getIdentifier(event); //returns id no
     if (event.target.id=="delete-"+identifier){
         removePlot(identifier);
+        localStorage.setItem("plotpoints", JSON.stringify(plotBuffer));
+
         bufferId(identifier); 
 
         targetCtx= document.getElementById("plotpoint-"+identifier);
@@ -60,20 +62,30 @@ ctxEntries.oninput= function(event){
     }
     if (event.target.id=="x-"+identifier){
         xVal = plotBuffer[plotIndx].offsetx = document.getElementById("x-"+identifier).value;
-        document.getElementById("xaxis-"+identifier).innerHTML= "x: "+xVal; 
+        document.getElementById("xaxis-"+identifier).value= xVal; 
     }
     if (event.target.id=="y-"+identifier){
         yVal = plotBuffer[plotIndx].offsety = document.getElementById("y-"+identifier).value;
-        document.getElementById("yaxis-"+identifier).innerHTML= "y: "+yVal;
+        document.getElementById("yaxis-"+identifier).value= yVal;
     }
     
+    if (event.target.id=="xaxis-"+identifier){
+        xVal = plotBuffer[plotIndx].offsetx = document.getElementById("xaxis-"+identifier).value;
+        document.getElementById("x-"+identifier).value= xVal;
+        console.log("yeah");
+    }
+
+    if (event.target.id=="yaxis-"+identifier){
+        yVal = plotBuffer[plotIndx].offsety = document.getElementById("yaxis-"+identifier).value;
+        document.getElementById("y-"+identifier).value= yVal;
+        console.log("yeah");
+    }
+
     localStorage.setItem("plotpoints", JSON.stringify(plotBuffer));
     update();
 }
 
 ctxOptions.onclick= function(event){
-    console.log(event.target.id);
-    //executes on clicking "add"
     if(event.target.id=="add"){
         if(idBuffer.length===0){
             addPoint(ctxEntries.childElementCount);
@@ -88,19 +100,31 @@ ctxOptions.onclick= function(event){
         localStorage.clear();
         update();
     }
+
+    if(event.target.id=="save"){
+    }
 }
 
 
 
-
+//executed on page load
 function plotterOnload(){
     if (localStorage.getItem('plotpoints')!=null){
         console.log("savepoint found!");
         plotBuffer= JSON.parse(localStorage.getItem('plotpoints'));
+        
+        for (i=0; i<plotBuffer.length; i++){
 
-        for (i=0; i<plotBuffer.length; i++){restorePoint(plotBuffer[i].identifier, plotBuffer[i].label, plotBuffer[i].offsetx, plotBuffer[i].offsety);}
+            //if(i!=plotBuffer[i].id){bufferId(i);}
+
+            //normal behaviour: restores all plots
+            //issue is that page cannot identify missing points 
+            restorePoint(i, plotBuffer[i].label, plotBuffer[i].offsetx, plotBuffer[i].offsety);
+            plotBuffer[i].id=i;
+        }
         update();     
-    }}
+    }
+}
 
 
 
@@ -121,11 +145,11 @@ function deletename() {
 
 
 function addPoint(identifier){
-    ctxEntries.insertAdjacentHTML('beforeend', '<div class="plotpoint" id="plotpoint-'+identifier+'"><div class="delete" id="delete-'+identifier+'">×</div><input type="text" id="name-'+identifier+'" placeholder="name"><input type="range" min="-10" max="10" step="0.001" value="0" class="slider polslider" id="x-'+identifier+'"><kbd><span id="xaxis-'+identifier+'" class="number">x: 0</span></kbd><input type="range" min="-10" max="10" step="0.001" value="0" class="slider polslider" id="y-'+identifier+'"><kbd><span id="yaxis-'+identifier+'" class="number">y: 0</span></kbd></div>');
+    ctxEntries.insertAdjacentHTML('beforeend', '<div class="plotpoint" id="plotpoint-'+identifier+'"><div class="delete" id="delete-'+identifier+'">×</div><input type="text" id="name-'+identifier+'" placeholder="name"><div class="sliderctnr"><img src="economy.svg"><input type="range" min="-10" max="10" step="0.001" value="0" class="slider polslider" id="x-'+identifier+'"><input type="number" id="xaxis-'+identifier+'" class="" min="-10" max="10" step=".001"></div><div class="sliderctnr"><img src="balance.svg"><input type="range" min="-10" max="10" step="0.001" value="0" class="slider polslider" id="y-'+identifier+'"><input type="number" id="yaxis-'+identifier+'" class="" min="-10" max="10" step=".001"></div></div>');
 }
 
 function restorePoint(identifier, label, offsetx, offsety){
-    ctxEntries.insertAdjacentHTML('beforeend', '<div class="plotpoint" id="plotpoint-'+identifier+'"><div class="delete" id="delete-'+identifier+'">×</div><input type="text" id="name-'+identifier+'" placeholder="name" value="'+label+'"><input type="range" min="-10" max="10" step="0.001" value="'+offsetx+'" class="slider polslider" id="x-'+identifier+'"><kbd><span id="xaxis-'+identifier+'" class="number">x: '+offsetx+'</span></kbd><input type="range" min="-10" max="10" step="0.001" value="'+offsety+'" class="slider polslider" id="y-'+identifier+'"><kbd><span id="yaxis-'+identifier+'" class="number">y: '+offsety+'</span></kbd></div>');
+    ctxEntries.insertAdjacentHTML('beforeend', '<div class="plotpoint" id="plotpoint-'+identifier+'"><div class="delete" id="delete-'+identifier+'">×</div><input type="text" id="name-'+identifier+'" placeholder="name" value="'+label+'"><div class="sliderctnr"><img src="economy.svg"><input type="range" min="-10" max="10" step="0.001" value="'+offsetx+'" class="slider polslider" id="x-'+identifier+'"><input type="number" id="xaxis-'+identifier+'" class="" min="-10" max="10" step=".001" value="'+offsetx+'"></div><div class="sliderctnr"><img src="balance.svg"><input type="range" min="-10" max="10" step="0.001" value="'+offsety+'" class="slider polslider" id="y-'+identifier+'"><input type="number" id="yaxis-'+identifier+'" class="" min="-10" max="10" step=".001" value="'+offsety+'"></div></div>');
 }
 
 function clr(){

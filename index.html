@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="tags" content="politics, meme, political compass, polcomp, crowdplot, compass, plotter">
+    <meta name="tags" content="politics, meme, political compass, polcomp, crowdplot, compass, plotter, polcomp together">
     <meta name="description" content="polcomp generator">
     <meta name="author" content="j5ylim">
-    <link rel= "stylesheet" href="../style.css">    
+    <link rel= "stylesheet" href="style.css">    
     <script src="./polcomp.js"></script>
 
     <title>Document</title>
@@ -16,18 +16,22 @@
 
 
 <body onload="initializeCanvas(); plotterOnload();" class="panel -center">
-    <div class="main -polcomp">
+    <div class="-polcomp">
         <canvas class="plot" id="comp" style="background-color: white;" width= "1200" height="1200"></canvas>
 
         <div class="toolbar" id="toolbar">
             <div class="entries" id="entries">
 
+
+
             </div>
+        
 
             <div class="options" id="options">
                 <span class="optionselect add" id="add">Add</span><span> | </span>
 
                 <span class="optionselect load" id="load">Load</span><span> | </span>
+                <span class="optionselect save" id="save">Save</span><span> | </span>
                 <span class="optionselect reset" id="reset">Reset</span><span> | </span>
                 <span class="optionselect options" id="options">Options</span><span> | </span>
 

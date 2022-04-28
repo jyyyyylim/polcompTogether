@@ -6,9 +6,12 @@ var size= 1200;
 
 var mid= size/2;
 
-var fontsize= 12;
-var arrowwidth= 5;
-var arrowlen= 14;
+var fontsize= size*.012;
+
+var arrowwidth= size*.004;
+var arrowlen= size*.012;
+
+//rotation around ctr
 var arrowOffset= 135;
 
 const margin= size*.025;
@@ -135,7 +138,7 @@ function background(){
     canvasContext.strokeStyle = "black";
     canvasContext.fillStyle = "black";
 
-
+    //https://jyyyyylim.github.io/polcompWf/
 
 
     canvasContext.globalCompositeOperation = 'source-over';
@@ -176,10 +179,12 @@ function background(){
 
     
 
-    label(70, yaxis+20, "#83C368", "-economic", "0.7");
-    label(xaxis, height-56, "#B777B3", "-auth", "0.7");
-    label(width-170, yaxis-10, "#27B5F1", "+economic", "0.7");
-    label(xaxis-60, 70, "#EF4747", "+auth", "0.7");
+    label(70, yaxis+20, "#83C368", "-economic", "1.05");
+    label(xaxis, height-56, "#B777B3", "-auth", "1.05");
+    label(width-170, yaxis-10, "#27B5F1", "+economic", "1.05");
+    label(xaxis-60, 70, "#EF4747", "+auth", "1.05");
+
+    label(margin, margin, "#141414", "https://jyyyyylim.github.io/polcompTogether/", "0.6");
 }
 
 
@@ -214,7 +219,7 @@ function labelledDot(xscale, yscale, label){
 
 function label(x, y, col, label, size){
     canvasContext.fillStyle = col;
-    canvasContext.font = '"'+size+'rem calibri';
+    canvasContext.font = size+"rem calibri";
 
     canvasContext.beginPath(); 
     canvasContext.fillText(label, x, y);
@@ -235,3 +240,7 @@ function arrowhead(){
 
 
 }
+
+//given line equation
+//dist= sqrt(x^2+y^2)
+//so when dist is know but coords arent
