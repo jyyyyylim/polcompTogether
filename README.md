@@ -11,3 +11,4 @@ polcomp with your friends.
 -~option caching~<br>
 -animations? <br>
 -ideological drift representation<br> 
+-mobile styling<br> 
