@@ -1,5 +1,5 @@
 # polcompWf
-polcomp with your friends. 
+polcomp with your friends... or yourself
 
 
 ## todo:
